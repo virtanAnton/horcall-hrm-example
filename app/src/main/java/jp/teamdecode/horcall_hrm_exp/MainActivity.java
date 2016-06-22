@@ -35,10 +35,12 @@ public class MainActivity extends AppCompatActivity {
 
     private BluetoothAdapter mBluetoothAdapter;
 
+    public final static UUID UUID_HEART_RATE_SERVICE = UUID
+            .fromString(SampleGattAttributes.HEART_RATE_SERVICE);
+
     public final static UUID UUID_HEART_RATE_MEASUREMENT = UUID
             .fromString(SampleGattAttributes.HEART_RATE_MEASUREMENT);
 
-    private UUID[] mHrmUuids = {UUID_HEART_RATE_MEASUREMENT};
 
     private String mDeviceAddress;
 
@@ -189,8 +191,9 @@ public class MainActivity extends AppCompatActivity {
         ParcelUuid[] deviceUuids = device.getUuids();
         for (ParcelUuid deviceUuid : deviceUuids) {
             UUID currentUuid = deviceUuid.getUuid();
-            if (currentUuid.equals(UUID_HEART_RATE_MEASUREMENT)) {
-                Log.d(TAG, "We have HRM device. Address: " + device.getAddress());
+            Log.d(TAG, "Device: Name/address" + device.getName() + "/" + device.getAddress() + "Uuid: " + currentUuid.toString());
+            if (currentUuid.equals(UUID_HEART_RATE_SERVICE)) {
+                Log.d(TAG, "We have HRM device! Name/address" + device.getName() + "/" + device.getAddress() + "Uuid: " + currentUuid.toString());
                 return true;
             }
         }
