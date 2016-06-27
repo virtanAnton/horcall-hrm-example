@@ -4,10 +4,12 @@
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
-        android:required="true" />
+        android:required="true"/>
 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -22,7 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <service android:name=".BluetoothLeService"/>
+        <service android:name=".MyBluetoothLeService"/>
     </application>
 
 </manifest>

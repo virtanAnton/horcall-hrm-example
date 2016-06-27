@@ -22,7 +22,7 @@ import java.util.UUID;
 /**
  * Created by Akadem on 21.06.2016.
  */
-public class BluetoothLeService extends Service {
+public class MyBluetoothLeService extends Service {
 
     private final String TAG = getClass().getSimpleName();
 
@@ -388,8 +388,8 @@ public class BluetoothLeService extends Service {
     }
 
     public class LocalBinder extends Binder {
-        public BluetoothLeService getService() {
-            return BluetoothLeService.this;
+        public MyBluetoothLeService getService() {
+            return MyBluetoothLeService.this;
         }
     }
 
