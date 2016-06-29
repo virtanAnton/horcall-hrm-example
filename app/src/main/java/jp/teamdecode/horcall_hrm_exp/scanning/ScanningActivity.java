@@ -59,7 +59,6 @@ public class ScanningActivity extends AppCompatActivity {
             new BluetoothAdapter.LeScanCallback() {
                 @Override
                 public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
-                    Log.d(TAG, "onLeScan: HRM founded: Name: " + device.getName() + "; Address: " + device.getAddress());
                     mRecyclerAdapter.addHrm(new PolarHrmModel(device).setBounded(isBoundedDevice(device)));
                 }
             };

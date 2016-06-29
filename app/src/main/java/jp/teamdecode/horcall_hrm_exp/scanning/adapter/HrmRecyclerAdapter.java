@@ -1,6 +1,7 @@
 package jp.teamdecode.horcall_hrm_exp.scanning.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,9 @@ import jp.teamdecode.horcall_hrm_exp.scanning.model.PolarHrmModel;
  * Created by Akadem on 27.06.2016.
  */
 public class HrmRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+
+    private final String TAG = getClass().getSimpleName();
 
     public interface HrmClickListener {
         void onHrmClick(PolarHrmModel hrm);
@@ -68,6 +72,7 @@ public class HrmRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public void addHrm(PolarHrmModel hrm) {
         if (!mList.contains(hrm)) {
+            Log.d(TAG, "onAddHrm: HRM founded: Name: " + hrm.getDevice().getName() + "; Address: " + hrm.getDevice().getAddress());
             mList.add(hrm);
             notifyItemInserted(mList.size());
         }

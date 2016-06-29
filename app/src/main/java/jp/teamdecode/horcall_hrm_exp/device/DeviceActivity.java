@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -52,6 +53,7 @@ public class DeviceActivity extends AppCompatActivity {
     private ServiceConnection mBtServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
+            mRecyclerAdapter.addLog("onServiceConnected");
             mBound = true;
             MyBluetoothLeService.LocalBinder binder = (MyBluetoothLeService.LocalBinder) service;
             mBluetoothLeService = binder.getService();
@@ -205,39 +207,74 @@ public class DeviceActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     // Device scan callback.
-
-
     private class HrmServiceCallbackListener implements MyBluetoothLeService.CallbackListener {
 
         @Override
         public void onGattConnected() {
-            mRecyclerAdapter.addLog("onGattConnected: ");
             Log.d(TAG, "onGattConnected: ");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mRecyclerAdapter.addLog("onGattConnected: ");
+                }
+            });
         }
 
         @Override
         public void onGattDisconnected() {
-            mRecyclerAdapter.addLog("onGattDisconnected: ");
             Log.d(TAG, "onGattDisconnected: ");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mRecyclerAdapter.addLog("onGattDisconnected: ");
+                }
+            });
+
         }
 
         @Override
         public void onGattServicesDiscovered() {
-            mRecyclerAdapter.addLog("onGattServicesDiscovered: ");
             Log.d(TAG, "onGattServicesDiscovered: ");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mRecyclerAdapter.addLog("onGattServicesDiscovered: ");
+                }
+            });
         }
 
         @Override
-        public void onNewPulseValueReceived(String payload) {
-            mRecyclerAdapter.addLog("onNewPulseValueReceived: pules" + payload);
+        public void onNewPulseValueReceived(final String payload) {
             Log.d(TAG, "onNewPulseValueReceived: pules = " + payload);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mRecyclerAdapter.addLog("onNewPulseValueReceived: pules" + payload);
+                }
+            });
         }
 
         @Override
-        public void onNewDataReceived(String payload) {
-            mRecyclerAdapter.addLog("onNewDataReceived: " + payload);
+        public void onNewDataReceived(final String payload) {
             Log.d(TAG, "onNewDataReceived: " + payload);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mRecyclerAdapter.addLog("onNewDataReceived: " + payload);
+                }
+            });
+
+
         }
     }
 }
