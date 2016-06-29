@@ -99,7 +99,12 @@ public class ScanningActivity extends AppCompatActivity {
                 ) {
             // Check Permissions Now
             ActivityCompat.requestPermissions(ScanningActivity.this,
-                    new String[]{Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN},
+                    new String[]{
+                            Manifest.permission.BLUETOOTH,
+                            Manifest.permission.BLUETOOTH_ADMIN,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                    },
                     REQUEST_LE_SCAN_BT);
         } else {
             scanBtActions();
