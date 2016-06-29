@@ -82,7 +82,7 @@ public class DeviceActivity extends AppCompatActivity {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mHrm = (PolarHrmModel) getIntent().getSerializableExtra(CALLING_EXTRA_HRM);
+        mHrm = getIntent().getParcelableExtra(CALLING_EXTRA_HRM);
 
         mStartButton = (Button) findViewById(R.id.stop);
         mStartButton.setOnClickListener(new View.OnClickListener() {
