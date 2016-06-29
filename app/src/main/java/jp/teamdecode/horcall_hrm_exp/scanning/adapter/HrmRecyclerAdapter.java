@@ -67,8 +67,10 @@ public class HrmRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     public void addHrm(PolarHrmModel hrm) {
-        mList.add(hrm);
-        notifyItemInserted(mList.size());
+        if (!mList.contains(hrm)) {
+            mList.add(hrm);
+            notifyItemInserted(mList.size());
+        }
     }
 
 

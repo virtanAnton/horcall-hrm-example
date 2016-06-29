@@ -31,4 +31,18 @@ public class PolarHrmModel implements Serializable {
         isBounded = bounded;
         return this;
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PolarHrmModel that = (PolarHrmModel) o;
+
+        return mDevice.equals(that.mDevice);
+    }
+
+    @Override
+    public int hashCode() {
+        return mDevice.hashCode();
+    }
 }
