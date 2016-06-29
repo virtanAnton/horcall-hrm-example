@@ -53,15 +53,14 @@ public class ScanningActivity extends AppCompatActivity {
     public final static UUID UUID_HEART_RATE_SERVICE = UUID
             .fromString(SampleGattAttributes.HEART_RATE_SERVICE);
 
+    public final static UUID[] HRM_UUIDS = {UUID_HEART_RATE_SERVICE};
+
     private BluetoothAdapter.LeScanCallback mLeScanCallback =
             new BluetoothAdapter.LeScanCallback() {
                 @Override
                 public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
-                    Log.d(TAG, "onLeScan: device scanned. Name: " + device.getName());
-                    if (hasValidUuid(device)) {
-                        Log.d(TAG, "onLeScan: HRM founded: Name: " + device.getName() + "; Address: " + device.getAddress());
-                        mRecyclerAdapter.addHrm(new PolarHrmModel(device).setBounded(isBoundedDevice(device)));
-                    }
+                    Log.d(TAG, "onLeScan: HRM founded: Name: " + device.getName() + "; Address: " + device.getAddress());
+                    mRecyclerAdapter.addHrm(new PolarHrmModel(device).setBounded(isBoundedDevice(device)));
                 }
             };
 
@@ -189,7 +188,7 @@ public class ScanningActivity extends AppCompatActivity {
 //                }
 //            }, SCAN_PERIOD);
             mScanning = true;
-            mBluetoothAdapter.startLeScan(mLeScanCallback);
+            mBluetoothAdapter.startLeScan(HRM_UUIDS, mLeScanCallback);
         } else {
             mScanning = false;
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
