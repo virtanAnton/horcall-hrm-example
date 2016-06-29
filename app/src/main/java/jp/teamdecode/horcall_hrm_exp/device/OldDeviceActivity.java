@@ -78,7 +78,6 @@ public class OldDeviceActivity extends AppCompatActivity {
 
 
     Button mStartButton;
-    Button mTryButton;
     LogRecyclerAdapter mRecyclerAdapter;
     RecyclerView mRecyclerView;
     Button mLogCopy;
@@ -99,21 +98,7 @@ public class OldDeviceActivity extends AppCompatActivity {
             }
         });
 
-        mTryButton = (Button) findViewById(R.id.connect);
-        mTryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ActivityCompat.checkSelfPermission(OldDeviceActivity.this, Manifest.permission.BLUETOOTH)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    // Check Permissions Now
-                    ActivityCompat.requestPermissions(OldDeviceActivity.this,
-                            new String[]{Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN},
-                            REQUEST_BT);
-                } else {
-                    connectBtnAction();
-                }
-            }
-        });
+
         mRecyclerView = (RecyclerView) findViewById(R.id.logs);
         mLogCopy = (Button) findViewById(R.id.clip_log);
         mLogCopy.setOnClickListener(new View.OnClickListener() {
