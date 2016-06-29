@@ -45,7 +45,7 @@ public class ScanningActivity extends AppCompatActivity {
     private Handler mHandler;
     private Set<BluetoothDevice> mPairedDevices = new HashSet<>();
 
-    private final int REQUEST_SCAN_BT = 2;
+    private final int REQUEST_LE_SCAN_BT = 2;
 
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
@@ -65,7 +65,7 @@ public class ScanningActivity extends AppCompatActivity {
                 }
             };
 
-    Button mStartScanning;
+    Button mStopScanning;
     RecyclerView mRecyclerView;
     HrmRecyclerAdapter mRecyclerAdapter;
 
@@ -79,23 +79,32 @@ public class ScanningActivity extends AppCompatActivity {
         mHandler = new Handler();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mStartScanning = (Button) findViewById(R.id.start);
-        mStartScanning.setOnClickListener(new View.OnClickListener() {
+        mStopScanning = (Button) findViewById(R.id.stop);
+        mStopScanning.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ActivityCompat.checkSelfPermission(ScanningActivity.this, Manifest.permission.BLUETOOTH)
-                        != PackageManager.PERMISSION_GRANTED
-                        || ActivityCompat.checkSelfPermission(ScanningActivity.this, Manifest.permission.BLUETOOTH_ADMIN)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    // Check Permissions Now
-                    ActivityCompat.requestPermissions(ScanningActivity.this,
-                            new String[]{Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN},
-                            REQUEST_SCAN_BT);
-                } else {
-                    scanBtActions();
-                }
+                mScanning = false;
+                mBluetoothAdapter.stopLeScan(mLeScanCallback);
             }
         });
+
+        if (ActivityCompat.checkSelfPermission(ScanningActivity.this, Manifest.permission.BLUETOOTH)
+                != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(ScanningActivity.this, Manifest.permission.BLUETOOTH_ADMIN)
+                != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(ScanningActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(ScanningActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                ) {
+            // Check Permissions Now
+            ActivityCompat.requestPermissions(ScanningActivity.this,
+                    new String[]{Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN},
+                    REQUEST_LE_SCAN_BT);
+        } else {
+            scanBtActions();
+        }
+
         initRecyclerView();
 
     }
@@ -131,6 +140,13 @@ public class ScanningActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mScanning = false;
+        mBluetoothAdapter.stopLeScan(mLeScanCallback);
+    }
+
     private void scanBtActions() {
 
         // Initializes Bluetooth adapter.
@@ -159,14 +175,14 @@ public class ScanningActivity extends AppCompatActivity {
     private void scanLeDevice(final boolean enable) {
         if (enable) {
             // Stops scanning after a pre-defined scan period.
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mScanning = false;
-                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
-                    invalidateOptionsMenu();
-                }
-            }, SCAN_PERIOD);
+//            mHandler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    mScanning = false;
+//                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
+//                    invalidateOptionsMenu();
+//                }
+//            }, SCAN_PERIOD);
             mScanning = true;
             mBluetoothAdapter.startLeScan(mLeScanCallback);
         } else {
@@ -200,10 +216,12 @@ public class ScanningActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_SCAN_BT) {
-            if (grantResults.length == 2
+        if (requestCode == REQUEST_LE_SCAN_BT) {
+            if (grantResults.length == 4
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[2] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[3] == PackageManager.PERMISSION_GRANTED) {
                 scanBtActions();
             } else {
                 // Permission was denied or request was cancelled
@@ -211,4 +229,5 @@ public class ScanningActivity extends AppCompatActivity {
             }
         }
     }
+
 }

@@ -2,7 +2,6 @@ package jp.teamdecode.horcall_hrm_exp.device;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -13,29 +12,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
-import android.os.ParcelUuid;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.SupportMenuInflater;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
 
 import jp.teamdecode.horcall_hrm_exp.MyBluetoothLeService;
 import jp.teamdecode.horcall_hrm_exp.R;
-import jp.teamdecode.horcall_hrm_exp.SampleGattAttributes;
 import jp.teamdecode.horcall_hrm_exp.device.adapter.LogRecyclerAdapter;
 import jp.teamdecode.horcall_hrm_exp.scanning.model.PolarHrmModel;
 
@@ -93,7 +84,7 @@ public class DeviceActivity extends AppCompatActivity {
 
         mHrm = (PolarHrmModel) getIntent().getSerializableExtra(CALLING_EXTRA_HRM);
 
-        mStartButton = (Button) findViewById(R.id.start);
+        mStartButton = (Button) findViewById(R.id.stop);
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

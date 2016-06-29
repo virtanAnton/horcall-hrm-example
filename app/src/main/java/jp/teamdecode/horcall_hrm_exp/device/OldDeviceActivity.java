@@ -90,7 +90,7 @@ public class OldDeviceActivity extends AppCompatActivity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        mStartButton = (Button) findViewById(R.id.start);
+        mStartButton = (Button) findViewById(R.id.stop);
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

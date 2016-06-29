@@ -12,7 +12,7 @@
     tools:context=".device.DeviceActivity">
 
     <Button
-        android:id="@+id/start"
+        android:id="@+id/stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Start_SERVICE"/>
